@@ -5,7 +5,8 @@
 # that can't tolerate any output.  So make sure this doesn't display
 # anything or bad things will happen !
 
-export HOME=/sdcard
+# Anthony Lee changed -- do not change HOME to let user changes *jail* in terminal app
+#export HOME=/sdcard
 export HOSTNAME=$(getprop ro.lineage.device)
 export TERM=xterm
 export TMPDIR=/data/local/tmp
@@ -15,8 +16,8 @@ export USER=$(id -un)
 # past this point for scp and rcp, and it's important to refrain from
 # outputting anything in those cases.
 if [[ $- != *i* ]] ; then
-	# Shell is non-interactive.  Be done now!
-	return
+        # Shell is non-interactive.  Be done now!
+        return
 fi
 
 # Bash won't get SIGWINCH if another process is in the foreground.
@@ -32,9 +33,9 @@ use_color=false
 
 # enable colorful terminal
 if [[ ${EUID} == 0 ]] ; then
-	PS1='\[\033[01;31m\]${HOSTNAME:=$(hostname)}\[\033[01;34m\] \w \$\[\033[00m\] '
+        PS1='\[\033[01;33m\]<$?> \[\033[01;31m\]${HOSTNAME:=$(hostname)}\[\033[01;34m\] \w \$\[\033[00m\] '
 else
-	PS1='\[\033[01;32m\]${USER:=$(id \-un)}@${HOSTNAME:=$(hostname)}\[\033[01;34m\] \w \$\[\033[00m\] '
+        PS1='\[\033[01;33m\]<$?> \[\033[01;32m\]${USER:=$(id \-un)}@${HOSTNAME:=$(hostname)}\[\033[01;34m\] \w \$\[\033[00m\] '
 fi
 
 alias ll='ls -l --color=auto'
